@@ -1,0 +1,47 @@
+@model List<Event>
+
+<h1>Dojo Activity Center!</h1>
+<p>Welcome @ViewBag.User.FirstName</p>
+<a asp-action="Logout" asp-controller="Home">Logout</a>
+
+<table class="table table-hover">
+    <thead>
+        <tr>
+            <th>Activity</th>
+            <th>Date and Time</th>
+            <th>Duration</th>
+            <th>Event Coordinator</th>
+            <th># of Participants</th>
+            <th>Actions</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach(var w in Model)
+        {
+            <tr>
+                <td><a asp-action="ShowEvent" asp-controller="Event" asp-route-EventId="@w.EventId">@w.Title</a></td>
+                <td>@w.EventTime.ToString("MM/dd/yyyy hh:mm tt")</td>
+                <td>@w.Duration @w.DurationParameter</td>
+                <td>@w.EventCoordinator</td>
+                <td>@w.GuestList.Count</td>
+                @if(@ViewBag.User.UserId == @w.UserId)
+                {
+                    <td><a asp-action="Destroy" asp-controller="Event" asp-route-EventId="@w.EventId">Destroy</a></td>
+                }
+                else
+                {
+                    @if(w.GuestList.Any(r => r.UserId != ViewBag.User.UserId) || w.GuestList.Count == 0)
+                    {
+                        <td><a asp-action="RSVP" asp-controller="Response" asp-route-EventId = "@w.EventId" asp-route-Status = "add">RSVP</a></td>
+                    }
+                    @if(w.GuestList.Any(r => r.UserId == ViewBag.User.UserId))
+                    {
+                        <td><a asp-action="RSVP" asp-controller="Response" asp-route-EventId = "@w.EventId" asp-route-Status = "remove" >Un-RSVP</a></td>
+                    }
+                }
+            </tr>
+        }
+    </tbody>
+</table>
+
+<a asp-action="NewEvent" asp-controller="Event">Add New Activity </a>

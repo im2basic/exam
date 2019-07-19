@@ -1,0 +1,20 @@
+@model Event
+<header>
+<h1>Dojo Activity Center</h1>
+<a asp-action="Dashboard" asp-controller="Event">Dashboard</a>
+<a asp-action="Logout" asp-controller="Home">Logout</a>
+</header>
+<h2>@Model.Title</h2>
+<h4>When: @Model.EventTime.ToString("MM/dd/yyyy")</h4>
+<h4>Description: @Model.Description</h4>
+<div>
+    <h6>Participants:</h6>
+    @if(@Model.GuestList.Count == 0 )
+    {
+        <p>Ill go die alone :( </p>
+    }
+    @foreach( var r in @Model.GuestList)
+    {
+        <p>@r.Guest.FirstName @r.Guest.LastName </p>
+    }
+</div>

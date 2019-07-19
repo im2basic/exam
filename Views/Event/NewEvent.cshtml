@@ -1,0 +1,36 @@
+@model Event
+<header>
+<h1> @ViewBag.User.FirstName, Plan your Activity!</h1>
+<a asp-action = "Dashboard" asp-controller = "Event"></a>
+<a asp-action = "LogOut" asp-controller = "Home"></a>
+</header>
+
+<div>
+    <span asp-validation-for="Title"></span>
+    <span asp-validation-for="Duration"></span>
+    <span asp-validation-for="DurationParameter"></span>
+    <span asp-validation-for="Description"></span>
+    <span asp-validation-for="EventTime"></span>
+</div>
+
+<form asp-action="CreateEvent" asp-controller="Event" method="post">
+    <input type="hidden" asp-for="UserId" value="@ViewBag.User.UserId">
+        <input type="hidden" asp-for="EventCoordinator" value="@ViewBag.User.FirstName">
+
+    <label asp-for="Title"></label>
+    <input asp-for="Title" placeholder="Enter Title" ><br>
+    <label asp-for="EventTime"></label>
+    <input asp-for="EventTime"><br>
+    <label asp-for="Duration"></label>
+    <input asp-for="Duration" placeholder="Ex. 4">
+    <label asp-for="DurationParameter"></label>
+        <select name="DurationParameter">
+        <option asp-value="Minutes">Minutes</option>
+        <option asp-value="Hours">Hours</option>
+        <option asp-value="Days">Days</option>
+        <option asp-value="Years">Years</option>
+        </select><br>
+    <label asp-for="Description" placeholder="ex.Hours/Days"></label>
+    <input asp-for="Description" placeholder="Enter Event Description"><br>
+    <input type="submit" value="Create Activity">
+    </form>
